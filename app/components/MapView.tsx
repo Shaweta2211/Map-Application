@@ -1,17 +1,20 @@
 
 
+
+
+
 // 'use client';
 
 // import { useState, useRef, useEffect } from 'react';
 // import {
-//   MapContainer,
-//   TileLayer,
-//   Marker,
-//   Polyline,
-//   useMap,
-//   useMapEvents,
-//   Popup,
-//   LayersControl,
+//     MapContainer,
+//     TileLayer,
+//     Marker,
+//     Polyline,
+//     useMap,
+//     useMapEvents,
+//     Popup,
+//     LayersControl,
 // } from 'react-leaflet';
 // import L from 'leaflet';
 // import 'leaflet/dist/leaflet.css';
@@ -86,11 +89,11 @@
 
 //     return (
 //         <div className="absolute top-[70px] right-2.5 z-1000 flex flex-col bg-white border border-gray-300 rounded">
-//   <button onClick={zoomIn} className="px-3 py-1.5 border-0 bg-[#f0f0f0] font-bold text-xl hover:bg-gray-200">+</button>
-//   <button onClick={zoomOut} className="px-3 py-1.5 border-0 bg-[#f0f0f0] font-bold text-xl hover:bg-gray-200">-</button>
-//   <button onClick={moveUp} className="px-3 py-1.5 border-0 bg-[#f0f0f0] font-bold text-xl hover:bg-gray-200">↑</button>
-//   <button onClick={moveDown} className="px-3 py-1.5 border-0 bg-[#f0f0f0] font-bold text-xl hover:bg-gray-200">↓</button>
-// </div>
+//             <button onClick={zoomIn} className="px-3 py-1.5 border-0 bg-[#f0f0f0] font-bold text-xl hover:bg-gray-200">+</button>
+//             <button onClick={zoomOut} className="px-3 py-1.5 border-0 bg-[#f0f0f0] font-bold text-xl hover:bg-gray-200">-</button>
+//             <button onClick={moveUp} className="px-3 py-1.5 border-0 bg-[#f0f0f0] font-bold text-xl hover:bg-gray-200">↑</button>
+//             <button onClick={moveDown} className="px-3 py-1.5 border-0 bg-[#f0f0f0] font-bold text-xl hover:bg-gray-200">↓</button>
+//         </div>
 
 //     );
 // };
@@ -187,6 +190,7 @@
 //     const [searchText, setSearchText] = useState('');
 //     const [suggestions, setSuggestions] = useState<any[]>([]);
 //     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+//     const [showDirections, setShowDirections] = useState(false);
 
 //     // routing states
 //     const [fromText, setFromText] = useState('');
@@ -379,172 +383,157 @@
 
 //             {/* --------------------- LEFT SIDEBAR (controls + directions) --------------------- */}
 //             <aside className="w-[360px] bg-white shadow-md border-r border-gray-200 z-1000 p-3 overflow-auto">
-//                 {/* Top provider / transport row */}
-//                 <div className="flex items-center justify-between mb-3">
-//                     <div className="flex items-center gap-2">
-//                         <div className="text-xs font-semibold">Provider</div>
-//                         <select className="border px-2 py-1 rounded text-sm">
-//                             <option>OSRM</option>
-//                             <option>OpenRoute</option>
-//                         </select>
-//                     </div>
 
-//                     <div className="flex items-center gap-2">
-//                         <button
-//                             onClick={() => selectTransport('car')}
-//                             className={`p-2 rounded ${transportMode === 'car' ? 'bg-blue-600 text-white' : 'bg-gray-100'}`}
-//                             title="Car"
-//                         >
-//                             <FaCar />
-//                         </button>
-//                         <button
-//                             onClick={() => selectTransport('walk')}
-//                             className={`p-2 rounded ${transportMode === 'walk' ? 'bg-blue-600 text-white' : 'bg-gray-100'}`}
-//                             title="Walk"
-//                         >
-//                             <FaWalking />
-//                         </button>
-//                         <button
-//                             onClick={() => selectTransport('bike')}
-//                             className={`p-2 rounded ${transportMode === 'bike' ? 'bg-blue-600 text-white' : 'bg-gray-100'}`}
-//                             title="Bicycle"
-//                         >
-//                             <FaBicycle />
-//                         </button>
-//                     </div>
-//                 </div>
-
-//                 {/* Search box */}
+//                 {/* ---------------- Search Bar with Directions Icon ---------------- */}
 //                 <div className="mb-3">
 //                     <label className="text-sm text-gray-600">Search</label>
-//                     <div className="relative mt-1">
-//                         <input
-//                             type="text"
-//                             className="w-full border px-3 py-2 rounded focus:outline-none focus:ring"
-//                             placeholder="Search location..."
-//                             value={searchText}
-//                             onChange={(e) => handleChange(e.target.value)}
-//                             onKeyDown={(e) => e.key === 'Enter' && handleSearch(searchText)}
-//                         />
-//                         {suggestions.length > 0 && (
-//                             <ul className="absolute left-0 right-0 bg-white border mt-1 rounded shadow max-h-60 overflow-auto z-50">
-//                                 {suggestions.map((s, i) => (
-//                                     <li key={i} onClick={() => handleSelect(s)} className="p-2 hover:bg-gray-100 text-sm cursor-pointer">
-//                                         {s.display_name}
-//                                     </li>
-//                                 ))}
-//                             </ul>
-//                         )}
-//                     </div>
-//                 </div>
+//                     <div className="relative mt-1 flex items-center gap-2">
+//                         <div className="relative flex-1">
+//                             <input
+//                                 type="text"
+//                                 className="w-full border px-3 py-2 rounded focus:outline-none focus:ring"
+//                                 placeholder="Search location..."
+//                                 value={searchText}
+//                                 onChange={(e) => handleChange(e.target.value)}
+//                                 onKeyDown={(e) => e.key === "Enter" && handleSearch(searchText)}
+//                             />
+//                             {suggestions.length > 0 && (
+//                                 <ul className="absolute left-0 right-0 bg-white border mt-1 rounded shadow max-h-60 overflow-auto z-50">
+//                                     {suggestions.map((s, i) => (
+//                                         <li
+//                                             key={i}
+//                                             onClick={() => handleSelect(s)}
+//                                             className="p-2 hover:bg-gray-100 text-sm cursor-pointer"
+//                                         >
+//                                             {s.display_name}
+//                                         </li>
+//                                     ))}
+//                                 </ul>
+//                             )}
+//                         </div>
 
-//                 {/* Route inputs */}
-//                 <div className="mb-4">
-//                     <div className="flex items-center justify-between mb-2">
-//                         <h3 className="font-semibold">Get Directions</h3>
+//                         {/* ✅ Toggle Directions */}
 //                         <button
-//                             onClick={() => { setFromText(''); setToText(''); setFromPos(null); setToPos(null); setRouteInstructions([]); }}
-//                             className="text-xs text-gray-500 hover:underline"
-//                         >
-//                             Clear
-//                         </button>
-//                     </div>
-
-//                     <div className="flex items-center border px-3 py-2 rounded mb-2">
-//                         <FaMapMarkerAlt className="text-green-500 mr-2" />
-//                         <input
-//                             value={fromText}
-//                             onChange={(e) => setFromText(e.target.value)}
-//                             placeholder="From"
-//                             className="w-full outline-none"
-//                         />
-//                     </div>
-
-//                     <div className="flex items-center border px-3 py-2 rounded mb-2">
-//                         <FaMapMarkerAlt className="text-red-500 mr-2" />
-//                         <input
-//                             value={toText}
-//                             onChange={(e) => setToText(e.target.value)}
-//                             placeholder="To"
-//                             className="w-full outline-none"
-//                         />
-//                     </div>
-
-
-//                     <div className="flex gap-2">
-//                         <button
-//                             onClick={async () => { await handleRoute(); }}
-//                             className="flex-1 bg-blue-600 text-white px-3 py-2 rounded"
-//                         >
-//                             Show Route
-//                         </button>
-//                         <button
-//                             onClick={() => setRoutePanelVisible(prev => !prev)}
-//                             className="px-3 py-2 border rounded"
+//                             onClick={() => setShowDirections((prev) => !prev)}
+//                             className={`p-2 rounded border ${showDirections ? "bg-blue-600 text-white" : "bg-gray-100"
+//                                 }`}
+//                             title="Toggle Directions"
 //                         >
 //                             <FaRoute />
 //                         </button>
 //                     </div>
-
-//                     {routeError && <div className="text-red-600 text-sm mt-2">{routeError}</div>}
 //                 </div>
 
-//                 {/* Directions / Steps */}
-//                 <div>
-//                     <h4 className="font-semibold mb-2">Directions</h4>
-//                     {routeInstructions.length > 0 ? (
-//                         <div className="text-sm text-gray-800 max-h-[60vh] overflow-auto pr-2">
-//                             <div className="text-xs text-gray-500 mb-2">Distance & time shown on route control (if provided)</div>
-//                             <ol className="list-decimal ml-5">
-//                                 {routeInstructions.map((step, i) => {
-//                                     // choose icon by keywords — left/right/straight/continue
-//                                     let icon = null;
-//                                     if (/left/i.test(step)) {
-//                                         icon = (
-//                                             <svg className="w-4 h-4 inline-block mr-2" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2">
-//                                                 <polyline points="14 4 6 12 14 20" />
-//                                             </svg>
-//                                         );
-//                                     } else if (/right/i.test(step)) {
-//                                         icon = (
-//                                             <svg className="w-4 h-4 inline-block mr-2" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2">
-//                                                 <polyline points="10 4 18 12 10 20" />
-//                                             </svg>
-//                                         );
-//                                     } else if (/straight|continue/i.test(step)) {
-//                                         icon = (
-//                                             <svg className="w-4 h-4 inline-block mr-2" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2">
-//                                                 <polyline points="12 19 12 5" />
-//                                                 <polyline points="5 12 12 5 19 12" />
-//                                             </svg>
-//                                         );
-//                                     } else {
-//                                         icon = (
-//                                             <svg className="w-4 h-4 inline-block mr-2" viewBox="0 0 24 24" fill="none" stroke="gray" strokeWidth="2">
-//                                                 <circle cx="12" cy="12" r="2" />
-//                                             </svg>
-//                                         );
-//                                     }
+//                 {/* ---------------- Directions Section ---------------- */}
+//                 {showDirections && (
+//                     <>
+//                         {/* Route Inputs */}
+//                         <div className="mb-4 mt-3">
+//                             <div className="flex items-center justify-between mb-2">
+//                                 <h3 className="font-semibold">Get Directions</h3>
+//                                 <div className="flex items-center gap-2">
+//                                     <button
+//                                         onClick={() => selectTransport("car")}
+//                                         className={`p-2 rounded ${transportMode === "car"
+//                                             ? "bg-blue-600 text-white"
+//                                             : "bg-gray-100 text-gray-700"
+//                                             }`}
+//                                         title="Car"
+//                                     >
+//                                         <FaCar />
+//                                     </button>
+//                                     <button
+//                                         onClick={() => selectTransport("walk")}
+//                                         className={`p-2 rounded ${transportMode === "walk"
+//                                             ? "bg-blue-600 text-white"
+//                                             : "bg-gray-100 text-gray-700"
+//                                             }`}
+//                                         title="Walk"
+//                                     >
+//                                         <FaWalking />
+//                                     </button>
+//                                     <button
+//                                         onClick={() => selectTransport("bike")}
+//                                         className={`p-2 rounded ${transportMode === "bike"
+//                                             ? "bg-blue-600 text-white"
+//                                             : "bg-gray-100 text-gray-700"
+//                                             }`}
+//                                         title="Bicycle"
+//                                     >
+//                                         <FaBicycle />
+//                                     </button>
+//                                 </div>
+//                                 <button
+//                                     onClick={() => {
+//                                         setFromText("");
+//                                         setToText("");
+//                                         setFromPos(null);
+//                                         setToPos(null);
+//                                         setRouteInstructions([]);
+//                                     }}
+//                                     className="text-x text-gray-500 hover:underline"
+//                                 >
+//                                     Clear
+//                                 </button>
+//                             </div>
 
-//                                     return (
-//                                         <li key={i} className="mb-2 text-sm flex items-center">
-//                                             {icon}
-//                                             <span>{step}</span>
-//                                         </li>
-//                                     );
-//                                 })}
-//                             </ol>
+//                             <div className="flex items-center border px-3 py-2 rounded mb-2">
+//                                 <FaMapMarkerAlt className="text-green-500 mr-2" />
+//                                 <input
+//                                     value={fromText}
+//                                     onChange={(e) => setFromText(e.target.value)}
+//                                     onKeyDown={async (e) => {
+//                                         if (e.key === "Enter") await handleRoute(); // ✅ Enter triggers route
+//                                     }}
+//                                     placeholder="From"
+//                                     className="w-full outline-none"
+//                                 />
+//                             </div>
+
+//                             <div className="flex items-center border px-3 py-2 rounded mb-2">
+//                                 <FaMapMarkerAlt className="text-red-500 mr-2" />
+//                                 <input
+//                                     value={toText}
+//                                     onChange={(e) => setToText(e.target.value)}
+//                                     onKeyDown={async (e) => {
+//                                         if (e.key === "Enter") await handleRoute(); // ✅ Enter triggers route
+//                                     }}
+//                                     placeholder="To"
+//                                     className="w-full outline-none"
+//                                 />
+//                             </div>
+
+//                             {routeError && (
+//                                 <div className="text-red-600 text-sm mt-2">{routeError}</div>
+//                             )}
 //                         </div>
-//                     ) : (
-//                         <p className="text-sm text-gray-500">No route selected</p>
-//                     )}
-//                 </div>
 
-//                 {/* Optional: quick info / footer */}
+//                         {/* Directions List */}
+//                         <div>
+//                             <h4 className="font-semibold mb-2">Directions</h4>
+//                             {routeInstructions.length > 0 ? (
+//                                 <div className="text-sm text-gray-800 max-h-[60vh] overflow-auto pr-2">
+//                                     <ol className="list-decimal ml-5">
+//                                         {routeInstructions.map((step, i) => (
+//                                             <li key={i} className="mb-2 text-sm">
+//                                                 {step}
+//                                             </li>
+//                                         ))}
+//                                     </ol>
+//                                 </div>
+//                             ) : (
+//                                 <p className="text-sm text-gray-500">No route selected</p>
+//                             )}
+//                         </div>
+//                     </>
+//                 )}
+
+//                 {/* Footer Tip */}
 //                 <div className="mt-4 text-xs text-gray-500">
-//                     Tip: Click map to add markers or use the search to pick locations.
+//                     Tip: Click map to add markers or use search to pick locations.
 //                 </div>
 //             </aside>
+
 
 //             {/* --------------------- RIGHT: MAP AREA --------------------- */}
 //             <div className="flex-1 relative">
@@ -575,9 +564,9 @@
 //                     {/* ✅ Route on map + colored markers */}
 //                     {fromPos && <Marker position={fromPos} icon={startIcon}><Popup>From: {fromText}</Popup></Marker>}
 //                     {toPos && <Marker position={toPos} icon={endIcon}><Popup>To: {toText}</Popup></Marker>}
-//                    {fromPos && toPos && (
-//   <RoutingControl from={fromPos} to={toPos} onRouteFound={setRouteInstructions} />
-// )}
+//                     {fromPos && toPos && (
+//                         <RoutingControl from={fromPos} to={toPos} onRouteFound={setRouteInstructions} />
+//                     )}
 
 
 //                     <LocationPickerMarker
@@ -659,54 +648,90 @@
 
 
 //             {/* JSON */}
-//             <div className="w-[300px] p-2 bg-white border border-gray-300 overflow-auto max-h-screen">
-//                 <h3 className="font-bold mb-2">JSON</h3>
-//                 <pre className="text-xs text-blue">
-//                     {JSON.stringify({
-//                         pickedPositions: pickedPositions.map(([lat, lng]) => ({
-//                             type: "Feature",
-//                             properties: { shape: "Point" },
-//                             geometry: { type: "Point", coordinates: [lng, lat] }
-//                         })),
-//                         finalLines: finalLines.map(line => ({
-//                             type: "Feature",
-//                             properties: { shape: "LineString" },
-//                             geometry: { type: "LineString", coordinates: line.map(([lat, lng]) => [lng, lat]) }
-//                         })),
-//                         finalPolygons: finalPolygons.map(poly => ({
-//                             type: "Feature",
-//                             properties: { shape: "Polygon" },
-//                             geometry: { type: "Polygon", coordinates: [poly.map(([lat, lng]) => [lng, lat])] }
-//                         })),
-//                         finalRectangles: finalRectangles.map(rect => ({
-//                             type: "Feature",
-//                             properties: { shape: "Polygon" },
-//                             geometry: {
-//                                 type: "Polygon", coordinates: [[
-//                                     [rect[0][1], rect[0][0]],
-//                                     [rect[1][1], rect[0][0]],
-//                                     [rect[1][1], rect[1][0]],
-//                                     [rect[0][1], rect[1][0]],
-//                                     [rect[0][1], rect[0][0]]
-//                                 ]]
-//                             }
-//                         })),
-//                         finalCircles: finalCircles.map(circle => ({
-//                             type: "Feature",
-//                             properties: { shape: "Polygon", isCircle: true },
-//                             geometry: { type: "Polygon", coordinates: [circle.map(([lat, lng]) => [lng, lat])] }
-//                         })),
-//                     }, null, 2)}
-//                 </pre>
-//             </div>
+//             {/* ✅ RIGHT SIDEBAR (Only visible when something is drawn) */}
+//             {(pickedPositions.length > 0 ||
+//                 finalLines.length > 0 ||
+//                 finalPolygons.length > 0 ||
+//                 finalRectangles.length > 0 ||
+//                 finalCircles.length > 0) && (
+//                     <aside className="w-[320px] bg-white shadow-md border-l border-gray-300 p-4 overflow-auto max-h-screen">
+//                         <div className="flex items-center justify-between mb-2">
+//                             <h3 className="font-bold text-lg">Drawn Data (JSON)</h3>
+//                             <button
+//                                 onClick={() => {
+//                                     setPickedPositions([]);
+//                                     setFinalLines([]);
+//                                     setFinalPolygons([]);
+//                                     setFinalRectangles([]);
+//                                     setFinalCircles([]);
+//                                 }}
+//                                 className="text-xs text-gray-500 border px-2 py-1 rounded hover:bg-gray-100"
+//                             >
+//                                 Clear All ✖
+//                             </button>
+//                         </div>
+
+//                         <pre className="text-xs bg-gray-50 border rounded p-2 overflow-auto">
+//                             {JSON.stringify(
+//                                 {
+//                                     points: pickedPositions.map(([lat, lng]) => ({
+//                                         type: "Feature",
+//                                         properties: { shape: "Point" },
+//                                         geometry: { type: "Point", coordinates: [lng, lat] },
+//                                     })),
+//                                     lines: finalLines.map((line) => ({
+//                                         type: "Feature",
+//                                         properties: { shape: "LineString" },
+//                                         geometry: {
+//                                             type: "LineString",
+//                                             coordinates: line.map(([lat, lng]) => [lng, lat]),
+//                                         },
+//                                     })),
+//                                     polygons: finalPolygons.map((poly) => ({
+//                                         type: "Feature",
+//                                         properties: { shape: "Polygon" },
+//                                         geometry: {
+//                                             type: "Polygon",
+//                                             coordinates: [poly.map(([lat, lng]) => [lng, lat])],
+//                                         },
+//                                     })),
+//                                     rectangles: finalRectangles.map((rect) => ({
+//                                         type: "Feature",
+//                                         properties: { shape: "Rectangle" },
+//                                         geometry: {
+//                                             type: "Polygon",
+//                                             coordinates: [
+//                                                 [
+//                                                     [rect[0][1], rect[0][0]],
+//                                                     [rect[1][1], rect[0][0]],
+//                                                     [rect[1][1], rect[1][0]],
+//                                                     [rect[0][1], rect[1][0]],
+//                                                     [rect[0][1], rect[0][0]],
+//                                                 ],
+//                                             ],
+//                                         },
+//                                     })),
+//                                     circles: finalCircles.map((circle) => ({
+//                                         type: "Feature",
+//                                         properties: { shape: "Circle" },
+//                                         geometry: {
+//                                             type: "Polygon",
+//                                             coordinates: [circle.map(([lat, lng]) => [lng, lat])],
+//                                         },
+//                                     })),
+//                                 },
+//                                 null,
+//                                 2
+//                             )}
+//                         </pre>
+//                     </aside>
+//                 )}
+
 //         </div>
 //     );
 // };
 
 // export default Map;
-
-
-
 
 
 
@@ -733,7 +758,7 @@ import {
 } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { FaMapMarkerAlt, FaRoute, FaCar, FaWalking, FaBicycle } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaRoute, FaCar, FaWalking, FaBicycle, FaArrowLeft, FaArrowRight, FaUndo, FaArrowUp } from 'react-icons/fa';
 import RoutingControl from '../components/RoutingControl';
 import 'leaflet-routing-machine';
 
@@ -1010,6 +1035,17 @@ const Map = () => {
         }
     };
 
+
+    const getDirectionIcon = (text: string) => {
+        const lower = text.toLowerCase();
+        if (lower.includes("left")) return <FaArrowLeft className="text-blue-600" />;
+        if (lower.includes("right")) return <FaArrowRight className="text-blue-600" />;
+        if (lower.includes("u-turn") || lower.includes("u turn"))
+            return <FaUndo className="text-blue-600" />;
+        return <FaArrowUp className="text-blue-600" />; // default straight
+    };
+
+
     // ---- Search Handler ----
     const fetchSuggestions = async (q: string) => {
         if (q.trim().length < 2) {
@@ -1098,49 +1134,6 @@ const Map = () => {
 
             {/* --------------------- LEFT SIDEBAR (controls + directions) --------------------- */}
             <aside className="w-[360px] bg-white shadow-md border-r border-gray-200 z-1000 p-3 overflow-auto">
-                {/* ---------------- Provider & Transport ---------------- */}
-                <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                        <div className="text-xs font-semibold">Provider</div>
-                        <select className="border px-2 py-1 rounded text-sm">
-                            <option>OSRM</option>
-                            <option>OpenRoute</option>
-                        </select>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                        <button
-                            onClick={() => selectTransport("car")}
-                            className={`p-2 rounded ${transportMode === "car"
-                                ? "bg-blue-600 text-white"
-                                : "bg-gray-100 text-gray-700"
-                                }`}
-                            title="Car"
-                        >
-                            <FaCar />
-                        </button>
-                        <button
-                            onClick={() => selectTransport("walk")}
-                            className={`p-2 rounded ${transportMode === "walk"
-                                ? "bg-blue-600 text-white"
-                                : "bg-gray-100 text-gray-700"
-                                }`}
-                            title="Walk"
-                        >
-                            <FaWalking />
-                        </button>
-                        <button
-                            onClick={() => selectTransport("bike")}
-                            className={`p-2 rounded ${transportMode === "bike"
-                                ? "bg-blue-600 text-white"
-                                : "bg-gray-100 text-gray-700"
-                                }`}
-                            title="Bicycle"
-                        >
-                            <FaBicycle />
-                        </button>
-                    </div>
-                </div>
 
                 {/* ---------------- Search Bar with Directions Icon ---------------- */}
                 <div className="mb-3">
@@ -1189,6 +1182,38 @@ const Map = () => {
                         <div className="mb-4 mt-3">
                             <div className="flex items-center justify-between mb-2">
                                 <h3 className="font-semibold">Get Directions</h3>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={() => selectTransport("car")}
+                                        className={`p-2 rounded ${transportMode === "car"
+                                            ? "bg-blue-600 text-white"
+                                            : "bg-gray-100 text-gray-700"
+                                            }`}
+                                        title="Car"
+                                    >
+                                        <FaCar />
+                                    </button>
+                                    <button
+                                        onClick={() => selectTransport("walk")}
+                                        className={`p-2 rounded ${transportMode === "walk"
+                                            ? "bg-blue-600 text-white"
+                                            : "bg-gray-100 text-gray-700"
+                                            }`}
+                                        title="Walk"
+                                    >
+                                        <FaWalking />
+                                    </button>
+                                    <button
+                                        onClick={() => selectTransport("bike")}
+                                        className={`p-2 rounded ${transportMode === "bike"
+                                            ? "bg-blue-600 text-white"
+                                            : "bg-gray-100 text-gray-700"
+                                            }`}
+                                        title="Bicycle"
+                                    >
+                                        <FaBicycle />
+                                    </button>
+                                </div>
                                 <button
                                     onClick={() => {
                                         setFromText("");
@@ -1197,7 +1222,7 @@ const Map = () => {
                                         setToPos(null);
                                         setRouteInstructions([]);
                                     }}
-                                    className="text-xs text-gray-500 hover:underline"
+                                    className="text-x text-gray-500 hover:underline"
                                 >
                                     Clear
                                 </button>
@@ -1229,28 +1254,29 @@ const Map = () => {
                                 />
                             </div>
 
+                            {/* 🚗 Directions List with Icons */}
+                            {routeInstructions.length > 0 && (
+                                <div className="mt-3 border-t pt-2">
+                                    <h4 className="font-semibold mb-2 text-sm">Directions</h4>
+                                    <div className="text-sm text-gray-800 max-h-100vh overflow-auto pr-2">
+                                        <ol className="space-y-2">
+                                            {routeInstructions.map((step, i) => (
+                                                <li key={i} className="flex items-start gap-2">
+                                                    <span className="mt-0.5">{getDirectionIcon(step)}</span>
+                                                    <span className="flex-1">{step}</span>
+                                                </li>
+                                            ))}
+                                        </ol>
+                                    </div>
+                                </div>
+                            )}
                             {routeError && (
                                 <div className="text-red-600 text-sm mt-2">{routeError}</div>
                             )}
                         </div>
 
-                        {/* Directions List */}
-                        <div>
-                            <h4 className="font-semibold mb-2">Directions</h4>
-                            {routeInstructions.length > 0 ? (
-                                <div className="text-sm text-gray-800 max-h-[60vh] overflow-auto pr-2">
-                                    <ol className="list-decimal ml-5">
-                                        {routeInstructions.map((step, i) => (
-                                            <li key={i} className="mb-2 text-sm">
-                                                {step}
-                                            </li>
-                                        ))}
-                                    </ol>
-                                </div>
-                            ) : (
-                                <p className="text-sm text-gray-500">No route selected</p>
-                            )}
-                        </div>
+                        
+
                     </>
                 )}
 
