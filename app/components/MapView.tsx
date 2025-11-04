@@ -1112,8 +1112,8 @@ const Map = () => {
                         <button
                             onClick={() => selectTransport("car")}
                             className={`p-2 rounded ${transportMode === "car"
-                                    ? "bg-blue-600 text-white"
-                                    : "bg-gray-100 text-gray-700"
+                                ? "bg-blue-600 text-white"
+                                : "bg-gray-100 text-gray-700"
                                 }`}
                             title="Car"
                         >
@@ -1122,8 +1122,8 @@ const Map = () => {
                         <button
                             onClick={() => selectTransport("walk")}
                             className={`p-2 rounded ${transportMode === "walk"
-                                    ? "bg-blue-600 text-white"
-                                    : "bg-gray-100 text-gray-700"
+                                ? "bg-blue-600 text-white"
+                                : "bg-gray-100 text-gray-700"
                                 }`}
                             title="Walk"
                         >
@@ -1132,8 +1132,8 @@ const Map = () => {
                         <button
                             onClick={() => selectTransport("bike")}
                             className={`p-2 rounded ${transportMode === "bike"
-                                    ? "bg-blue-600 text-white"
-                                    : "bg-gray-100 text-gray-700"
+                                ? "bg-blue-600 text-white"
+                                : "bg-gray-100 text-gray-700"
                                 }`}
                             title="Bicycle"
                         >
@@ -1374,46 +1374,85 @@ const Map = () => {
 
 
             {/* JSON */}
-            <div className="w-[300px] p-2 bg-white border border-gray-300 overflow-auto max-h-screen">
-                <h3 className="font-bold mb-2">JSON</h3>
-                <pre className="text-xs text-blue">
-                    {JSON.stringify({
-                        pickedPositions: pickedPositions.map(([lat, lng]) => ({
-                            type: "Feature",
-                            properties: { shape: "Point" },
-                            geometry: { type: "Point", coordinates: [lng, lat] }
-                        })),
-                        finalLines: finalLines.map(line => ({
-                            type: "Feature",
-                            properties: { shape: "LineString" },
-                            geometry: { type: "LineString", coordinates: line.map(([lat, lng]) => [lng, lat]) }
-                        })),
-                        finalPolygons: finalPolygons.map(poly => ({
-                            type: "Feature",
-                            properties: { shape: "Polygon" },
-                            geometry: { type: "Polygon", coordinates: [poly.map(([lat, lng]) => [lng, lat])] }
-                        })),
-                        finalRectangles: finalRectangles.map(rect => ({
-                            type: "Feature",
-                            properties: { shape: "Polygon" },
-                            geometry: {
-                                type: "Polygon", coordinates: [[
-                                    [rect[0][1], rect[0][0]],
-                                    [rect[1][1], rect[0][0]],
-                                    [rect[1][1], rect[1][0]],
-                                    [rect[0][1], rect[1][0]],
-                                    [rect[0][1], rect[0][0]]
-                                ]]
-                            }
-                        })),
-                        finalCircles: finalCircles.map(circle => ({
-                            type: "Feature",
-                            properties: { shape: "Polygon", isCircle: true },
-                            geometry: { type: "Polygon", coordinates: [circle.map(([lat, lng]) => [lng, lat])] }
-                        })),
-                    }, null, 2)}
-                </pre>
-            </div>
+            {/* ✅ RIGHT SIDEBAR (Only visible when something is drawn) */}
+            {(pickedPositions.length > 0 ||
+                finalLines.length > 0 ||
+                finalPolygons.length > 0 ||
+                finalRectangles.length > 0 ||
+                finalCircles.length > 0) && (
+                    <aside className="w-[320px] bg-white shadow-md border-l border-gray-300 p-4 overflow-auto max-h-screen">
+                        <div className="flex items-center justify-between mb-2">
+                            <h3 className="font-bold text-lg">Drawn Data (JSON)</h3>
+                            <button
+                                onClick={() => {
+                                    setPickedPositions([]);
+                                    setFinalLines([]);
+                                    setFinalPolygons([]);
+                                    setFinalRectangles([]);
+                                    setFinalCircles([]);
+                                }}
+                                className="text-xs text-gray-500 border px-2 py-1 rounded hover:bg-gray-100"
+                            >
+                                Clear All ✖
+                            </button>
+                        </div>
+
+                        <pre className="text-xs bg-gray-50 border rounded p-2 overflow-auto">
+                            {JSON.stringify(
+                                {
+                                    points: pickedPositions.map(([lat, lng]) => ({
+                                        type: "Feature",
+                                        properties: { shape: "Point" },
+                                        geometry: { type: "Point", coordinates: [lng, lat] },
+                                    })),
+                                    lines: finalLines.map((line) => ({
+                                        type: "Feature",
+                                        properties: { shape: "LineString" },
+                                        geometry: {
+                                            type: "LineString",
+                                            coordinates: line.map(([lat, lng]) => [lng, lat]),
+                                        },
+                                    })),
+                                    polygons: finalPolygons.map((poly) => ({
+                                        type: "Feature",
+                                        properties: { shape: "Polygon" },
+                                        geometry: {
+                                            type: "Polygon",
+                                            coordinates: [poly.map(([lat, lng]) => [lng, lat])],
+                                        },
+                                    })),
+                                    rectangles: finalRectangles.map((rect) => ({
+                                        type: "Feature",
+                                        properties: { shape: "Rectangle" },
+                                        geometry: {
+                                            type: "Polygon",
+                                            coordinates: [
+                                                [
+                                                    [rect[0][1], rect[0][0]],
+                                                    [rect[1][1], rect[0][0]],
+                                                    [rect[1][1], rect[1][0]],
+                                                    [rect[0][1], rect[1][0]],
+                                                    [rect[0][1], rect[0][0]],
+                                                ],
+                                            ],
+                                        },
+                                    })),
+                                    circles: finalCircles.map((circle) => ({
+                                        type: "Feature",
+                                        properties: { shape: "Circle" },
+                                        geometry: {
+                                            type: "Polygon",
+                                            coordinates: [circle.map(([lat, lng]) => [lng, lat])],
+                                        },
+                                    })),
+                                },
+                                null,
+                                2
+                            )}
+                        </pre>
+                    </aside>
+                )}
+
         </div>
     );
 };
