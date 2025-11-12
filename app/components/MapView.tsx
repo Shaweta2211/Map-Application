@@ -635,9 +635,9 @@ const Map = () => {
                                 <TileLayer url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png" attribution="© OpenTopoMap (CC-BY-SA) & OpenStreetMap contributors" />
                             </LayersControl.BaseLayer>
 
-                            <LayersControl.BaseLayer name="Dark">
+                            {/* <LayersControl.BaseLayer name="Dark">
                                 <TileLayer url="https://tiles.stadiamaps.com/tiles/alidade_dark/{z}/{x}/{y}{r}.png" attribution="© Stadia Maps, OpenMapTiles & OpenStreetMap contributors" />
-                            </LayersControl.BaseLayer>
+                            </LayersControl.BaseLayer> */}
                         </LayersControl>
                     </div>
                 </MapContainer>
