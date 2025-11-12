@@ -437,8 +437,8 @@ const Map = () => {
                                 <button
                                     onClick={() => selectTransport("car")}
                                     className={`p-2 rounded ${transportMode === "car"
-                                            ? "bg-blue-600 text-white"
-                                            : "bg-gray-100 text-gray-700"
+                                        ? "bg-blue-600 text-white"
+                                        : "bg-gray-100 text-gray-700"
                                         }`}
                                 >
                                     <FaCar />
@@ -446,8 +446,8 @@ const Map = () => {
                                 <button
                                     onClick={() => selectTransport("walk")}
                                     className={`p-2 rounded ${transportMode === "walk"
-                                            ? "bg-blue-600 text-white"
-                                            : "bg-gray-100 text-gray-700"
+                                        ? "bg-blue-600 text-white"
+                                        : "bg-gray-100 text-gray-700"
                                         }`}
                                 >
                                     <FaWalking />
@@ -455,8 +455,8 @@ const Map = () => {
                                 <button
                                     onClick={() => selectTransport("bike")}
                                     className={`p-2 rounded ${transportMode === "bike"
-                                            ? "bg-blue-600 text-white"
-                                            : "bg-gray-100 text-gray-700"
+                                        ? "bg-blue-600 text-white"
+                                        : "bg-gray-100 text-gray-700"
                                         }`}
                                 >
                                     <FaBicycle />
@@ -520,7 +520,7 @@ const Map = () => {
 
                         {/* Directions List */}
                         {routeInstructions.length > 0 && (
-                            <div className="mt-3 border-t pt-2 max-h-125 overflow-y-auto">
+                            <div className="mt-3 border-t pt-2 max-h-screen overflow-y-auto">
                                 <h4 className="font-semibold text-xs mb-1 text-gray-600">
                                     Directions:
                                 </h4>
