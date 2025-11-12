@@ -520,7 +520,7 @@ const Map = () => {
 
                         {/* Directions List */}
                         {routeInstructions.length > 0 && (
-                            <div className="mt-3 border-t pt-2 max-h-130 overflow-y-auto">
+                            <div className="mt-3 border-t pt-2 max-h-100 overflow-y-auto">
                                 <h4 className="font-semibold text-xs mb-1 text-gray-600">
                                     Directions:
                                 </h4>
